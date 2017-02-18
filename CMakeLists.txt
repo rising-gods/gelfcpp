@@ -25,7 +25,7 @@ add_subdirectory(dep)
 
 # Register library
 add_library(gelfcpp INTERFACE)
-target_include_directories(gelfcpp INTERFACE ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(gelfcpp INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(gelfcpp INTERFACE ${GELFCPP_BOOST_LIBRARY} ${GELFCPP_RAPIDJSON_LIBRARY})
 if (NOT GELFCPP_WITH_COMPRESSION)
     target_compile_definitions(gelfcpp INTERFACE -DGELFCPP_NO_COMPRESSION)
