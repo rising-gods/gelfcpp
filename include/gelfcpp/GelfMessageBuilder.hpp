@@ -41,7 +41,7 @@ public:
     GelfMessageBuilder& Set(Fn&& provider)
     {
         return operator()(std::forward<Fn>(provider));
-    };
+    }
 
     GelfMessageBuilder& operator()()
     {

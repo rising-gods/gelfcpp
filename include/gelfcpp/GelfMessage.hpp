@@ -30,11 +30,17 @@ public:
         Set("short_message", message);
     }
 
-    template<typename T, typename = std::enable_if_t<!std::is_convertible<T, std::string>::value>>
+    template<typename T, typename = std::enable_if_t<std::is_arithmetic<std::decay_t<T>>::value && !std::is_same<std::decay_t<T>, bool>::value>>
     void Set(const std::string& field, T&& value)
     {
         rapidjson::Value json(value);
         Set(field, json);
+    }
+
+    template<typename T, typename = std::enable_if_t<std::is_same<std::decay_t<T>, bool>::value>>
+    void Set(const std::string& field, T value)
+    {
+        Set(field, value ? 1 : 0);
     }
 
     void Set(const std::string& field, const std::string& value)
