@@ -9,23 +9,22 @@
 # googlemock:
 # $ rm -rf build-aux make msvc scripts test docs
 
-
-add_library(googletest STATIC
+add_library(gelfcpp_googletest STATIC
         ${CMAKE_CURRENT_SOURCE_DIR}/googletest/src/gtest-all.cc
         ${CMAKE_CURRENT_SOURCE_DIR}/googlemock/src/gmock-all.cc)
-target_include_directories(googletest
+target_include_directories(gelfcpp_googletest
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/googletest/include
         ${CMAKE_CURRENT_SOURCE_DIR}/googlemock/include
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/googletest
         ${CMAKE_CURRENT_SOURCE_DIR}/googlemock)
-target_link_libraries(googletest
+target_link_libraries(gelfcpp_googletest
         PUBLIC
         pthread)
 
-add_library(googletest_main STATIC
+add_library(gelfcpp_googletest_main STATIC
         googletest_main.cpp)
-target_link_libraries(googletest_main
+target_link_libraries(gelfcpp_googletest_main
         PUBLIC
-        googletest)
+        gelfcpp_googletest)
