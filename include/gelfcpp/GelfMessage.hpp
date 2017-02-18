@@ -30,7 +30,7 @@ public:
         Set("short_message", message);
     }
 
-    template<typename T>
+    template<typename T, typename = std::enable_if_t<!std::is_convertible<T, std::string>::value>>
     void Set(const std::string& field, T&& value)
     {
         rapidjson::Value json(value);
