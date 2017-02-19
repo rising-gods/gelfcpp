@@ -11,12 +11,12 @@ namespace gelfcpp
 
 namespace detail
 {
-class DocumentAccessor;
+struct DocumentAccessor;
 }
 
 class GelfMessage
 {
-    friend class detail::DocumentAccessor;
+    friend struct detail::DocumentAccessor;
 
 public:
     GelfMessage() :
