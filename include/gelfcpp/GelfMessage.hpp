@@ -15,6 +15,14 @@ namespace detail
 struct DocumentAccessor;
 }
 
+/**
+ * \brief A single GELF message, with write-only access to its fields.
+ *
+ * \note This class only supports GELF version 1.1 and treats deprecated standard fields as normal additional fields.
+ *
+ * Currently the following standard fields are handled: <code>version, host, short_message, full_message, timestamp, level</code>.
+ * Standard fields are included "as-is". All other fields are prefixed with "_".
+ */
 class GelfMessage
 {
     friend struct detail::DocumentAccessor;
@@ -38,26 +46,55 @@ public:
         SetField("version", "1.1");
     }
 
+    /**
+     * \brief Quick accessor for <code>short_message</code> field.
+     *
+     * Behaves like \code SetField("short_message", message). \endcode
+     *
+     * @param message message
+     */
     void SetMessage(const std::string& message)
     {
         SetField("short_message", message);
     }
 
+    /**
+     * \brief Quick accessor for <code>full_message</code> field.
+     *
+     * Behaves like \code SetField("full_message", message). \endcode
+     *
+     * @param message message
+     */
     void SetFullMessage(const std::string& message)
     {
         SetField("full_message", message);
     }
 
+    /**
+     * \brief Quick accessor for <code>host</code> field.
+     *
+     * Behaves like \code SetField("host", message). \endcode
+     *
+     * @param message hostname
+     */
     void SetHost(const std::string& host)
     {
         SetField("host", host);
     }
 
+    /**
+     * \brief Quick accessor for <code>timestamp</code> field.
+     *
+     * Behaves like \code SetField("timestamp", message). \endcode
+     *
+     * @param timestamp timestamp
+     */
     void SetTimestamp(double timestamp)
     {
         SetField("timestamp", timestamp);
     }
 
+#ifndef GELFCPP_DOXYGEN_RUNNING
     template<typename T>
     auto SetField(const std::string& name, T value) -> std::enable_if_t<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>
     {
@@ -81,7 +118,33 @@ public:
         rapidjson::Value json(value, doc_.GetAllocator());
         SetField(name, std::move(json));
     }
+#else
+    /**
+     * \brief Adds a field to the message.
+     *
+     * \note If a field was already assigned the old value is overwritten.
+     *
+     * @tparam T value type, supported: <code>bool, integral, floating point, strings</code>
+     * @param name field name, the "_" prefix is added automatically
+     * @param value field value of any supported type
+     */
+    template<typename T> void SetField(const std::string& name, T value) {}
+#endif
 
+    /**
+     * \brief Adds a field to the message.
+     *
+     * This behaves like SetField(const std::string&, T) but allows map/array like syntax.
+     *
+     * Example usage:
+     * \code{.cpp}
+     * GelfMessage message;
+     * message["field_name"] = field_value;
+     * \endcode
+     *
+     * @param field field name, the "_" prefix is added automatically
+     * @return wrapper to allow assignment, see the usage example.
+     */
     FieldSetter operator[](const std::string& field)
     {
         return {*this, field};

@@ -8,6 +8,11 @@ namespace gelfcpp
 namespace decorator
 {
 
+/**
+ * \brief Decorator which appends the current timestamp
+ *
+ * Uses UnixTime with sub-second resolution.
+ */
 class CurrentTimestamp
 {
 public:

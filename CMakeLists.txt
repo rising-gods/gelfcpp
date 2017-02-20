@@ -11,18 +11,19 @@ set(GELFCPP_GOOGLETEST_LIBRARY  "gelfcpp_googletest" CACHE STRING "googletest li
 
 # Build options
 if (NOT GELFCPP_AS_SUBPROJECT)
-    option(GELFCPP_BUILD_EXAMPLES   "Build gelfcpp examples"     OFF)
-    option(GELFCPP_BUILD_TESTS      "Build gelfcpp tests"         ON)
-    option(GELFCPP_WITH_COMPRESSION "Enable compression support"  ON)
+    option(GELFCPP_BUILD_EXAMPLES       "Build gelfcpp examples"      OFF)
+    option(GELFCPP_BUILD_TESTS          "Build gelfcpp tests"          ON)
+    option(GELFCPP_BUILD_DOCUMENTATION  "Build doxygen documentation"  ON)
+    option(GELFCPP_WITH_COMPRESSION     "Enable compression support"   ON)
 else()
     message(STATUS "gelfcpp: building as subproject")
-    set(GELFCPP_BUILD_EXAMPLES  OFF)
-    set(GELFCPP_BUILD_TESTS     OFF)
+    set(GELFCPP_BUILD_EXAMPLES      OFF)
+    set(GELFCPP_BUILD_TESTS         OFF)
+    set(GELFCPP_BUILD_DOCUMENTATION OFF)
     if (NOT (DEFINED GELFCPP_WITH_COMPRESSION))
         set(GELFCPP_WITH_COMPRESSION ON)
     endif()
 endif()
-# Optional features
 
 # Load dependencies
 add_subdirectory(dep)
@@ -40,6 +41,9 @@ if (NOT GELFCPP_AS_SUBPROJECT)
 endif()
 
 # Additional build options
+if (GELFCPP_BUILD_DOCUMENTATION)
+    add_subdirectory(doc)
+endif()
 if (GELFCPP_BUILD_EXAMPLES)
     add_subdirectory(example)
 endif()

@@ -17,6 +17,13 @@
 namespace gelfcpp
 {
 
+/**
+ * \brief Handles chunking and compression
+ *
+ * \todo Merge this into GelfUDPOutput, for convenience and performance.
+ *
+ * \see GelfUDPOutput
+ */
 class GelfSerializer
 {
     static constexpr std::size_t DEFAULT_CHUNK_SIZE = 2096;

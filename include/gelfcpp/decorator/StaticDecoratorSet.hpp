@@ -9,6 +9,13 @@ namespace gelfcpp
 namespace decorator
 {
 
+/**
+ * \brief Statically combines multiple decorators
+ *
+ * \note The decorators are applied in definition order.
+ *
+ * @tparam Decorators dectorators that should be applied
+ */
 template<typename... Decorators>
 class StaticDecoratorSet
 {
@@ -19,6 +26,7 @@ public:
         operator()(message, std::make_index_sequence<std::tuple_size<DecoratorSet>::value>{});
     }
 
+#ifndef GELFCPP_DOXYGEN_RUNNING
     template<std::size_t I>
     auto get() -> std::add_lvalue_reference_t<std::tuple_element_t<I, DecoratorSet>>
     {
@@ -30,6 +38,21 @@ public:
     {
         return std::get<T>(decorators_);
     }
+#else
+    /**
+     * \brief Accesses the decorator in the set by index
+     * @tparam I decorator index
+     * @return the decorator
+     */
+    template<std::size_t I> Decorator& get();
+
+    /**
+     * \brief Accesses the decorator in the set by name
+     * @tparam T decorator type
+     * @return the decorator
+     */
+    template<typename T> Decorator& get();
+#endif
 
 private:
     template<std::size_t... I>

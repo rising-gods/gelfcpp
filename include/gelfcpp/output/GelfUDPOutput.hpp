@@ -9,9 +9,23 @@
 namespace gelfcpp
 {
 
+/**
+ * \brief Writes GelfMessages to an UDP socket
+ *
+ * Serlializes and sends messages to e.g. an Graylog Node, sending is non-blocking.
+ *
+ * Uses chunking for big messages due to size limitations of UDP.
+ * Additionally uses compression if enabled (by setting \c GELFCPP_WITH_COMPRESSION in CMake).
+ */
 class GelfUDPOutput
 {
 public:
+    /**
+     * \brief Creates an new output socket to given host and port
+     *
+     * @param host remote hostname
+     * @param port remote UDP port
+     */
     GelfUDPOutput(const std::string& host, uint16_t port)
     {
         boost::asio::ip::udp::resolver resolver(service_);
@@ -20,6 +34,11 @@ public:
         socket_.reset(new boost::asio::ip::udp::socket(service_, endpoint_.protocol()));
     }
 
+    /**
+     * \brief Serializes a message to the UDP stream
+     *
+     * @param message the message
+     */
     void Write(const GelfMessage& message)
     {
         for (const std::string& chunk : serializer_.Serialize(message))
