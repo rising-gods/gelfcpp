@@ -36,7 +36,7 @@ if (NOT GELFCPP_WITH_COMPRESSION)
     target_compile_definitions(gelfcpp INTERFACE -DGELFCPP_NO_COMPRESSION)
 endif()
 if (NOT GELFCPP_AS_SUBPROJECT)
-    target_compile_options(gelfcpp INTERFACE -Wall -Wextra -Wdouble-promotion)
+    target_compile_options(gelfcpp INTERFACE -Wall -Wextra -Wno-double-promotion)
 endif()
 
 # Additional build options

@@ -8,87 +8,115 @@ namespace gelfcpp
 namespace detail
 {
 template<typename T>
-class Trigger
+class Sender
 {
 public:
-    constexpr Trigger(T& output) :
-            output_(output),
-            triggered_(false)
+    static bool IsValid(const T&)
+    {
+        return true;
+    }
+
+    Sender(T& output) :
+        output_(output)
     {}
 
-    operator bool()
+    void operator=(const GelfMessage& message)
     {
-        return !triggered_;
+        output_.Write(message);
     }
-
-    T* get()
-    {
-        triggered_ = true;
-        return &output_;
-    }
-
 private:
     T& output_;
-    bool triggered_;
 };
 
 template<typename T>
-class Trigger<T*>
+class Sender<T*>
 {
 public:
-    constexpr Trigger(T* output) :
-            output_(output)
+    static bool IsValid(const T* output)
+    {
+        return output != nullptr;
+    }
+
+    Sender(T* output) :
+        output_(output)
     {}
 
-    operator bool()
+    void operator=(const GelfMessage& message)
     {
-        return output_ != nullptr;
+        output_->Write(message);
     }
-
-    T* get()
-    {
-        auto old = output_;
-        output_ = nullptr;
-        return old;
-    }
-
 private:
     T* output_;
 };
 
 template<typename T>
-class Trigger<std::shared_ptr<T>>
+class Sender<std::shared_ptr<T>>
 {
 public:
-    constexpr Trigger(std::shared_ptr<T> output) :
-            output_(std::move(output)),
-            triggered_(false)
+    static bool IsValid(const std::shared_ptr<T>& output)
+    {
+        return output != nullptr;
+    }
+
+    Sender(std::shared_ptr<T> output) :
+        output_(std::move(output))
     {}
 
-    operator bool()
+    void operator=(const GelfMessage& message)
     {
-        return !triggered_;
+        output_->Write(message);
     }
-
-    T* get()
-    {
-        triggered_ = true;
-        return output_.get();
-    }
-
 private:
     std::shared_ptr<T> output_;
-    bool triggered_;
+};
+
+template<typename T, typename Deleter>
+class Sender<std::unique_ptr<T, Deleter>>
+{
+public:
+    static bool IsValid(const std::unique_ptr<T, Deleter>& output)
+    {
+        return output != nullptr;
+    }
+
+    Sender(const std::unique_ptr<T, Deleter>& output) :
+        output_(output.get())
+    {}
+
+    void operator=(const GelfMessage& message)
+    {
+        output_->Write(message);
+    }
+private:
+    T* output_;
 };
 }
 
-template<typename T>
-static GelfMessageBuilder<T> StreamMessage(T* output)
+struct GelfMessageStream
 {
-    return {output};
-}
+public:
+    template<typename T>
+    explicit GelfMessageStream(T&& ptr) :
+            valid_(detail::Sender<std::decay_t<T>>::IsValid(ptr))
+    {}
+
+    explicit operator bool()
+    {
+        return valid_;
+    }
+
+    template<typename T>
+    detail::Sender<T> Send(T& output)
+    {
+        valid_ = false;
+        return {output};
+    }
+
+private:
+    bool valid_;
+};
 }
 
 #define GELF_MESSAGE(output) \
-    for (::gelfcpp::detail::Trigger<decltype(output)> trigger(output); trigger ;) \
-        gelfcpp::StreamMessage(trigger.get())
+    for (::gelfcpp::GelfMessageStream stream(output); stream ;) \
+        stream.Send(output) = ::gelfcpp::GelfMessageBuilder()

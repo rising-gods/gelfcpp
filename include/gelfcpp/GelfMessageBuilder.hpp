@@ -7,74 +7,60 @@
 namespace gelfcpp
 {
 
-template<typename Output>
 struct GelfMessageBuilder
 {
 public:
-    GelfMessageBuilder(Output* output) :
-            output_(output)
-    {}
-
-    ~GelfMessageBuilder()
+    GelfMessageBuilder&& operator()(const std::string& message) &&
     {
-        if (output_)
-            output_->Send(message_);
-    }
-
-    GelfMessageBuilder& Set()
-    {
-        return operator()();
-    }
-
-    GelfMessageBuilder& Set(const std::string& message)
-    {
-        return operator()(message);
+        message_.SetMessage(message);
+        return std::move(*this);
     }
 
     template<typename T>
-    GelfMessageBuilder& Set(const std::string& field, T&& value)
+    GelfMessageBuilder&& operator()(const std::string& field, T&& value) &&
     {
-        return operator()(field, std::forward<T>(value));
+        message_.SetField(field, std::forward<T>(value));
+        return std::move(*this);
     }
 
-    template<typename Fn, typename enable = decltype(std::declval<Fn>()(std::declval<GelfMessage&>()))>
-    GelfMessageBuilder& Set(Fn&& provider)
-    {
-        return operator()(std::forward<Fn>(provider));
-    }
-
-    GelfMessageBuilder& operator()()
-    {
-        return *this;
-    }
-
-    GelfMessageBuilder& operator()(const std::string& message)
+    GelfMessageBuilder& operator()(const std::string& message) &
     {
         message_.SetMessage(message);
         return *this;
     }
 
     template<typename T>
-    GelfMessageBuilder& operator()(const std::string& field, T&& value)
+    GelfMessageBuilder& operator()(const std::string& field, T&& value) &
     {
-        message_.Set(field, std::forward<T>(value));
+        message_.SetField(field, std::forward<T>(value));
         return *this;
     }
 
-    template<typename Fn, typename = decltype(std::declval<Fn>()(std::declval<GelfMessage&>()))>
-    GelfMessageBuilder& operator()(Fn&& provider)
+    template<typename Decorator, typename = decltype(std::declval<Decorator>()(std::declval<GelfMessage&>()))>
+    GelfMessageBuilder& operator()(Decorator&& decorator) &
     {
-        std::forward<Fn>(provider)(message_);
+        std::forward<Decorator>(decorator)(message_);
         return *this;
     }
 
-    operator const GelfMessage&() const
+    template<typename Decorator, typename = decltype(std::declval<Decorator>()(std::declval<GelfMessage&>()))>
+    GelfMessageBuilder&& operator()(Decorator&& decorator) &&
+    {
+        std::forward<Decorator>(decorator)(message_);
+        return std::move(*this);
+    }
+
+    operator const GelfMessage&() const&
     {
         return message_;
     }
 
+    operator GelfMessage&&() &&
+    {
+        return std::move(message_);
+    }
+
 private:
-    Output* output_;
     GelfMessage message_;
 };
 

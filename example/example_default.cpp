@@ -2,29 +2,67 @@
 #include <gelfcpp/output/GelfUDPOutput.hpp>
 #include <gelfcpp/output/GelfJSONOutput.hpp>
 #include <gelfcpp/GelfMessageStream.hpp>
+
+#include <gelfcpp/decorator/StaticDecoratorSet.hpp>
+#include <gelfcpp/decorator/Timestamp.hpp>
+#include <gelfcpp/decorator/Host.hpp>
+
 #include <iostream>
 
-#include <gelfcpp/provider/StaticCombiner.hpp>
-#include <gelfcpp/provider/Timestamp.hpp>
-#include <gelfcpp/provider/Host.hpp>
-
+using namespace std::string_literals;
 
 int main()
 {
-    using Provider = gelfcpp::provider::StaticCombiner<gelfcpp::provider::CurrentTimestamp, gelfcpp::provider::Host>;
-    Provider provider;
-    provider.get<gelfcpp::provider::Host>().SetHost("lool");
+    // define a nice decorator
+    // - add hostname
+    // - add current timestamp
+    using Decorator = gelfcpp::decorator::StaticDecoratorSet<gelfcpp::decorator::CurrentTimestamp, gelfcpp::decorator::Host>;
+    Decorator decorator;
 
-    gelfcpp::GelfUDPOutput out("192.168.0.119", 13000);
+    // explicitly set hostname, defaults to the hostname of the system
+    decorator.get<gelfcpp::decorator::Host>().SetHost("explicit-hostname");
+
+    // define an udp output: hostname + port
+    gelfcpp::GelfUDPOutput graylog("192.168.0.119", 13000);
+
+    // define an JSON output, printing directly to std::cout
     gelfcpp::GelfJSONOutput json(std::cout);
 
+
+    // we can also wrap outputs in managed pointers
     auto test = std::make_shared<gelfcpp::GelfJSONOutput>(std::cout);
+
+    // these outputs are explictly invalid -> if using the stream API no message is generated
     auto null = std::shared_ptr<gelfcpp::GelfJSONOutput>();
     auto null_ptr = null.get();
 
-    GELF_MESSAGE(json)(provider)("Help")("me", 1);
-    GELF_MESSAGE(test)(provider)("Help")("me", 1);
-    GELF_MESSAGE(test.get())(provider)("Help")("me", 1);
-    GELF_MESSAGE(null)(provider)("Help")("me", 1);
-    GELF_MESSAGE(null_ptr)(provider)("Help")("me", 1);
+    // sending some messages
+    GELF_MESSAGE(json)(decorator)
+                              ("Test message to std::cout")
+                              ("tagged_value", 1);
+    std::cout << std::endl;
+
+    GELF_MESSAGE(graylog)(decorator)
+                                 ("Test message to out graylog instance via UDP")
+                                 ("from_gelfcpp", true);
+
+    // this should not be visible, since the output is invalid
+    GELF_MESSAGE(null)(decorator)("I'm not printed");
+
+
+    // the streaming API is on-demand, if output is invalid, the stream expression is not executed
+    // this should be visible
+    GELF_MESSAGE(json)([](gelfcpp::GelfMessage& msg)
+                       {
+                           msg.SetField("i_am_not_executed", false);
+                           std::cout << "This decorator is executed!" << std::endl;
+                       });
+    std::cout << std::endl;
+
+    // ... but this not
+    GELF_MESSAGE(null_ptr)(decorator)([](gelfcpp::GelfMessage&)
+                                      {
+                                          std::cout << "This decorator is not executed,"
+                                                    << " since streaming is on-demand";
+                                      });
 }

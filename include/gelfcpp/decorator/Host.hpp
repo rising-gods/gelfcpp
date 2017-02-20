@@ -6,7 +6,7 @@
 
 namespace gelfcpp
 {
-namespace provider
+namespace decorator
 {
 
 class Host
@@ -20,7 +20,7 @@ public:
 
     void operator()(GelfMessage& message) const
     {
-        message.Set("host", host_);
+        message.SetField("host", host_);
     }
 
 private:

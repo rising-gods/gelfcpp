@@ -16,7 +16,7 @@ public:
             output_(output)
     {}
 
-    void Send(const GelfMessage& message)
+    void Write(const GelfMessage& message)
     {
         rapidjson::StringBuffer buffer;
         rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -29,9 +29,9 @@ private:
     std::ostream& output_;
 };
 
-std::ostream& operator<<(std::ostream& os, const GelfMessage& message)
+inline std::ostream& operator<<(std::ostream& os, const GelfMessage& message)
 {
-    GelfJSONOutput(os).Send(message);
+    GelfJSONOutput(os).Write(message);
     return os;
 }
 

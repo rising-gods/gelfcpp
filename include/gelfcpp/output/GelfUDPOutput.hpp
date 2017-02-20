@@ -20,7 +20,7 @@ public:
         socket_.reset(new boost::asio::ip::udp::socket(service_, endpoint_.protocol()));
     }
 
-    void Send(const GelfMessage& message)
+    void Write(const GelfMessage& message)
     {
         for (const std::string& chunk : serializer_.Serialize(message))
             socket_->async_send_to(boost::asio::buffer(chunk), endpoint_, [](const boost::system::error_code&, unsigned long int) {});

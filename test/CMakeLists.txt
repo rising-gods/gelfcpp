@@ -16,5 +16,3 @@ function(create_all)
 endfunction()
 
 create_all()
-create_test(message
-        message/TestCompileGelfMessage.cpp)
