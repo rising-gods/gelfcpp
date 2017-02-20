@@ -35,7 +35,8 @@ private:
     template<std::size_t... I>
     void operator()(GelfMessage& message, std::index_sequence<I...>)
     {
-        [](...) {}((std::get<I>(decorators_)(message), 0)...);
+        int dummy[] = {(std::get<I>(decorators_)(message), 0)...};
+        (void) dummy;
     }
 
 private:
