@@ -18,11 +18,15 @@ class CurrentTimestamp
 public:
     void operator()(GelfMessage& message) const
     {
-        message.SetField("timestamp", GetTime());
+        message.SetField("timestamp", GetCurrentTime());
     }
 
-private:
-    static double GetTime()
+    /**
+     * \brief Returns the current timestamp as UnixTime
+     *
+     * @return unixtime with sub-second resolution
+     */
+    static double GetCurrentTime()
     {
         using clock = std::chrono::system_clock;
         using unixtime = std::chrono::duration<double>;

@@ -35,6 +35,12 @@ public:
             chunk_size_(DEFAULT_CHUNK_SIZE),
             compress_threshold_(DEFAULT_COMPRESS_THRESHOLD) {}
 
+    /**
+     * \brief Serialize JSON message into chunks, maybe gzip compressed.
+     *
+     * @param message the message
+     * @return list of chunks to send
+     */
     std::vector<std::string> Serialize(const GelfMessage& message)
     {
         std::vector<std::string> out;

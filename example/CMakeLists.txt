@@ -7,3 +7,4 @@ function(add_example name)
 endfunction()
 
 add_example(default example_default.cpp)
+add_example(graylog example_graylog.cpp)

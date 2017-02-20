@@ -127,7 +127,7 @@ public:
      * Checks wether the output is valid and thus invalidates this stream.
      *
      * @tparam T output type
-     * @param ptr output
+     * @param output output
      */
     template<typename T>
     explicit GelfMessageStream(T&& output) :
@@ -166,7 +166,8 @@ private:
 }
 
 /**
- * \brief Convieneince macro for easy stream-like creation and sending of GelfMessages
+ * \ingroup Marcos
+ * \brief Convenience macro for easy stream-like creation and sending of GelfMessages
  *
  * Usage:
  * \code

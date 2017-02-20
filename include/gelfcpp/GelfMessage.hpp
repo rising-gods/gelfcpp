@@ -75,7 +75,7 @@ public:
      *
      * Behaves like \code SetField("host", message). \endcode
      *
-     * @param message hostname
+     * @param host hostname
      */
     void SetHost(const std::string& host)
     {
