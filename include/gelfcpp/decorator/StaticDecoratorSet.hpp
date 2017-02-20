@@ -21,6 +21,10 @@ class StaticDecoratorSet
 {
     using DecoratorSet = std::tuple<Decorators...>;
 public:
+    /**
+     * \brief Decorator apply operator
+     * @param message the message
+     */
     void operator()(GelfMessage& message)
     {
         operator()(message, std::make_index_sequence<std::tuple_size<DecoratorSet>::value>{});

@@ -16,7 +16,8 @@
 
 namespace gelfcpp
 {
-
+namespace detail
+{
 /**
  * \brief Handles chunking and compression
  *
@@ -123,4 +124,5 @@ private:
     std::size_t compress_threshold_;
 };
 
+}
 }

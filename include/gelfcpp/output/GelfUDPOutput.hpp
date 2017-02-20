@@ -1,14 +1,15 @@
 #pragma once
 
 #include <gelfcpp/GelfMessage.hpp>
-#include <gelfcpp/output/GelfSerializer.hpp>
+#include <gelfcpp/detail/GelfSerializer.hpp>
 #include <boost/asio/ip/udp.hpp>
 #include <string>
 #include <cstdint>
 
 namespace gelfcpp
 {
-
+namespace output
+{
 /**
  * \brief Writes GelfMessages to an UDP socket
  *
@@ -46,10 +47,11 @@ public:
     }
 
 private:
-    GelfSerializer serializer_;
+    detail::GelfSerializer serializer_;
     boost::asio::io_service service_;
     boost::asio::ip::udp::endpoint endpoint_;
     std::unique_ptr<boost::asio::ip::udp::socket> socket_;
 };
 
+}
 }

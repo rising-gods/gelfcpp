@@ -6,7 +6,7 @@ using namespace std::string_literals;
 
 TEST(DISABLED_TestGelfUDPOutput, Write)
 {
-    GelfUDPOutput output("localhost", 12222);
+    output::GelfUDPOutput output("localhost", 12222);
     {
         GelfMessage message;
         message.SetMessage("message");

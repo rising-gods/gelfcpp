@@ -15,5 +15,5 @@ else()
             COMMAND ${CMAKE_COMMAND} -E touch ${CMAKE_CURRENT_BINARY_DIR}/html
             DEPENDS ${sources} ${docs} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-    add_custom_target(doc DEPENDS doc_html)
+    add_custom_target(doc ALL DEPENDS doc_html)
 endif()

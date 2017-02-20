@@ -23,17 +23,17 @@ int main()
     decorator.get<gelfcpp::decorator::Host>().SetHost("explicit-hostname");
 
     // define an udp output: hostname + port
-    gelfcpp::GelfUDPOutput graylog("192.168.0.119", 13000);
+    gelfcpp::output::GelfUDPOutput graylog("192.168.0.119", 13000);
 
     // define an JSON output, printing directly to std::cout
-    gelfcpp::GelfJSONOutput json(std::cout);
+    gelfcpp::output::GelfJSONOutput json(std::cout);
 
 
     // we can also wrap outputs in managed pointers
-    auto test = std::make_shared<gelfcpp::GelfJSONOutput>(std::cout);
+    auto test = std::make_shared<gelfcpp::output::GelfJSONOutput>(std::cout);
 
     // these outputs are explictly invalid -> if using the stream API no message is generated
-    auto null = std::shared_ptr<gelfcpp::GelfJSONOutput>();
+    auto null = std::shared_ptr<gelfcpp::output::GelfJSONOutput>();
     auto null_ptr = null.get();
 
     // sending some messages

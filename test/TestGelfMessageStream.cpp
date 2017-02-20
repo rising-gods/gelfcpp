@@ -18,7 +18,7 @@ struct TestGelfMessageStream : public ::testing::Test
     {}
 
     std::ostringstream result;
-    GelfJSONOutput output;
+    output::GelfJSONOutput output;
 };
 
 struct NullDeleter { template<typename T> void operator()(T*) {} };
@@ -54,7 +54,7 @@ TEST_F(TestGelfMessageStream, SendPointer)
 
 TEST_F(TestGelfMessageStream, SendSharedPointer)
 {
-    auto ptr = std::shared_ptr<GelfJSONOutput>(&output, NullDeleter());
+    auto ptr = std::shared_ptr<output::GelfJSONOutput>(&output, NullDeleter());
     {
         GelfMessageStream stream(ptr);
         stream.Send(ptr) = GelfMessageBuilder()("message");
@@ -68,7 +68,7 @@ TEST_F(TestGelfMessageStream, SendSharedPointer)
 
 TEST_F(TestGelfMessageStream, SendUniquePointer)
 {
-    auto ptr = std::unique_ptr<GelfJSONOutput, NullDeleter>(&output);
+    auto ptr = std::unique_ptr<output::GelfJSONOutput, NullDeleter>(&output);
     {
         GelfMessageStream stream(ptr);
         stream.Send(ptr) = GelfMessageBuilder()("message");

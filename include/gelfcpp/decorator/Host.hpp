@@ -37,6 +37,10 @@ public:
      */
     void SetHost(const std::string& host) { host_ = host; }
 
+    /**
+     * \brief Decorator apply operator
+     * @param message the message
+     */
     void operator()(GelfMessage& message) const
     {
         message.SetField("host", host_);

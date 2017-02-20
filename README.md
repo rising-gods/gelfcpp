@@ -61,7 +61,7 @@ Sending messages to your Graylog instance.
 
 int main()
 {
-    gelfcpp::GelfUDPOutput graylog("graylog.example.com", 12001);
+    gelfcpp::output::GelfUDPOutput graylog("graylog.example.com", 12001);
     gelfcpp::decorator::CurrentTimestamp timestamp;
 
     GELF_MESSAGE(graylog)

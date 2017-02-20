@@ -8,7 +8,8 @@
 
 namespace gelfcpp
 {
-
+namespace output
+{
 /**
  * \brief Writes GelfMessages as JSON to given std::ostream
  *
@@ -24,8 +25,7 @@ public:
      * @param output underlying stream
      */
     GelfJSONOutput(std::ostream& output) :
-            output_(output)
-    {}
+            output_(output) {}
 
     /**
      * \brief Serializes a message to the underlying stream
@@ -45,6 +45,8 @@ private:
     std::ostream& output_;
 };
 
+}
+
 /**
  * \brief Serializes a message to the given stream
  *
@@ -55,7 +57,7 @@ private:
  */
 inline std::ostream& operator<<(std::ostream& os, const GelfMessage& message)
 {
-    GelfJSONOutput(os).Write(message);
+    output::GelfJSONOutput(os).Write(message);
     return os;
 }
 

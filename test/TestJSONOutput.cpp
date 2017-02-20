@@ -7,7 +7,7 @@ using namespace std::string_literals;
 TEST(TestGelfJSONOutput, Write)
 {
     std::ostringstream os;
-    GelfJSONOutput output(os);
+    output::GelfJSONOutput output(os);
     {
         GelfMessage message;
         message.SetMessage("message");

@@ -16,6 +16,10 @@ namespace decorator
 class CurrentTimestamp
 {
 public:
+    /**
+     * \brief Decorator apply operator
+     * @param message the message
+     */
     void operator()(GelfMessage& message) const
     {
         message.SetField("timestamp", GetCurrentTime());
