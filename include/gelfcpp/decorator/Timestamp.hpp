@@ -18,7 +18,7 @@ class CurrentTimestamp
 public:
     /**
      * \brief Decorator apply operator
-     * @param message the message
+     * \param message the message
      */
     void operator()(GelfMessage& message) const
     {
@@ -28,7 +28,7 @@ public:
     /**
      * \brief Returns the current timestamp as UnixTime
      *
-     * @return unixtime with sub-second resolution
+     * \return unixtime with sub-second resolution
      */
     static double GetCurrentTime()
     {

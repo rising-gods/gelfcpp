@@ -23,7 +23,7 @@ public:
     Host() : Host(boost::asio::ip::host_name()) {}
     /**
      * \brief Explicitly sets the hostname
-     * @param host the hostname
+     * \param host the hostname
      */
     Host(const std::string& host) : host_(host) {}
 
@@ -33,13 +33,13 @@ public:
     void SetDefault() { SetHost(boost::asio::ip::host_name()); }
     /**
      * \brief Explicitly sets the hostname
-     * @param host the hostname
+     * \param host the hostname
      */
     void SetHost(const std::string& host) { host_ = host; }
 
     /**
      * \brief Decorator apply operator
-     * @param message the message
+     * \param message the message
      */
     void operator()(GelfMessage& message) const
     {

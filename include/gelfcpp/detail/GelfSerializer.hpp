@@ -39,8 +39,8 @@ public:
     /**
      * \brief Serialize JSON message into chunks, maybe gzip compressed.
      *
-     * @param message the message
-     * @return list of chunks to send
+     * \param message the message
+     * \return list of chunks to send
      */
     std::vector<std::string> Serialize(const GelfMessage& message)
     {

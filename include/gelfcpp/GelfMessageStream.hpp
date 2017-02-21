@@ -126,8 +126,8 @@ public:
      *
      * Checks wether the output is valid and thus invalidates this stream.
      *
-     * @tparam T output type
-     * @param output output
+     * \tparam T output type
+     * \param output output
      */
     template<typename T>
     explicit GelfMessageStream(T&& output) :
@@ -137,7 +137,7 @@ public:
     /**
      * \brief Checks if this stream is associated to a valid output
      *
-     * @return \c true if output is valid, \c false otherwise
+     * \return \c true if output is valid, \c false otherwise
      */
     explicit operator bool()
     {
@@ -149,9 +149,9 @@ public:
      *
      * \note After calling Send() once this stream is considered invalid.
      *
-     * @tparam T output type
-     * @param output output
-     * @return Sink for GelfMessages, which are send to the output
+     * \tparam T output type
+     * \param output output
+     * \return Sink for GelfMessages, which are send to the output
      */
     template<typename T>
     detail::Sender<T> Send(T& output)

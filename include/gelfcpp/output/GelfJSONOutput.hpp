@@ -22,7 +22,7 @@ public:
     /**
      * \brief Constructs a new output on the given stream
      *
-     * @param output underlying stream
+     * \param output underlying stream
      */
     GelfJSONOutput(std::ostream& output) :
             output_(output) {}
@@ -30,7 +30,7 @@ public:
     /**
      * \brief Serializes a message to the underlying stream
      *
-     * @param message the message
+     * \param message the message
      */
     void Write(const GelfMessage& message)
     {
@@ -50,10 +50,10 @@ private:
 /**
  * \brief Serializes a message to the given stream
  *
- * @param os the stream
- * @param message the message
- * @return the stream
- * @see GelfJSONOutput
+ * \param os the stream
+ * \param message the message
+ * \return the stream
+ * \see GelfJSONOutput
  */
 inline std::ostream& operator<<(std::ostream& os, const GelfMessage& message)
 {

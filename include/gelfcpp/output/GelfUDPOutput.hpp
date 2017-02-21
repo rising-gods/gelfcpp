@@ -24,8 +24,8 @@ public:
     /**
      * \brief Creates an new output socket to given host and port
      *
-     * @param host remote hostname
-     * @param port remote UDP port
+     * \param host remote hostname
+     * \param port remote UDP port
      */
     GelfUDPOutput(const std::string& host, uint16_t port)
     {
@@ -38,7 +38,7 @@ public:
     /**
      * \brief Serializes a message to the UDP stream
      *
-     * @param message the message
+     * \param message the message
      */
     void Write(const GelfMessage& message)
     {

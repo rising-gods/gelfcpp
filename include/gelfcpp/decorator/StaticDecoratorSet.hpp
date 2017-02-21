@@ -14,7 +14,7 @@ namespace decorator
  *
  * \note The decorators are applied in definition order.
  *
- * @tparam Decorators decorators that should be applied
+ * \tparam Decorators decorators that should be applied
  */
 template<typename... Decorators>
 class StaticDecoratorSet
@@ -23,7 +23,7 @@ class StaticDecoratorSet
 public:
     /**
      * \brief Decorator apply operator
-     * @param message the message
+     * \param message the message
      */
     void operator()(GelfMessage& message)
     {
@@ -45,15 +45,15 @@ public:
 #else
     /**
      * \brief Accesses the decorator in the set by index
-     * @tparam I decorator index
-     * @return the decorator
+     * \tparam I decorator index
+     * \return the decorator
      */
     template<std::size_t I> Decorator& get();
 
     /**
      * \brief Accesses the decorator in the set by name
-     * @tparam T decorator type
-     * @return the decorator
+     * \tparam T decorator type
+     * \return the decorator
      */
     template<typename T> Decorator& get();
 #endif

@@ -102,9 +102,9 @@ public:
      *
      * Equivalent to \c gelf_message.SetMessage(message).
      *
-     * @param message message
-     * @return \c *this , for chaining
-     * @see GelfMessage::SetMessage()
+     * \param message message
+     * \return \c *this , for chaining
+     * \see GelfMessage::SetMessage()
      */
     GelfMessageBuilder& operator()(const std::string& message) {}
 
@@ -113,11 +113,11 @@ public:
      *
      * Equivalent to \c gelf_message.SetField(field, value).
      *
-     * @tparam T any supported field type, \see GelfMessage::SetField()
-     * @param field field name
-     * @param value field value
-     * @return \c *this , for chaining
-     * @see GelfMessage::SetField()
+     * \tparam T any supported field type, \see GelfMessage::SetField()
+     * \param field field name
+     * \param value field value
+     * \return \c *this , for chaining
+     * \see GelfMessage::SetField()
      */
     template<typename T> GelfMessageBuilder& operator()(const std::string& field, T value) {}
 
@@ -126,9 +126,9 @@ public:
      *
      * Equivalent to \c decorator(gelf_message).
      *
-     * @tparam Decorator decorator type
-     * @param decorator decorator function
-     * @return \c *this , for chaining
+     * \tparam Decorator decorator type
+     * \param decorator decorator function
+     * \return \c *this , for chaining
      */
     template<typename Decorator> GelfMessageBuilder& operator()(Decorator decorator) {}
 #endif

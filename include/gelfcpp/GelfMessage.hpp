@@ -51,7 +51,7 @@ public:
      *
      * Behaves like \code SetField("short_message", message). \endcode
      *
-     * @param message message
+     * \param message message
      */
     void SetMessage(const std::string& message)
     {
@@ -63,7 +63,7 @@ public:
      *
      * Behaves like \code SetField("full_message", message). \endcode
      *
-     * @param message message
+     * \param message message
      */
     void SetFullMessage(const std::string& message)
     {
@@ -75,7 +75,7 @@ public:
      *
      * Behaves like \code SetField("host", message). \endcode
      *
-     * @param host hostname
+     * \param host hostname
      */
     void SetHost(const std::string& host)
     {
@@ -87,7 +87,7 @@ public:
      *
      * Behaves like \code SetField("timestamp", message). \endcode
      *
-     * @param timestamp timestamp
+     * \param timestamp timestamp
      */
     void SetTimestamp(double timestamp)
     {
@@ -124,9 +124,9 @@ public:
      *
      * \note If a field was already assigned the old value is overwritten.
      *
-     * @tparam T value type, supported: <code>bool, integral, floating point, strings</code>
-     * @param name field name, the "_" prefix is added automatically
-     * @param value field value of any supported type
+     * \tparam T value type, supported: <code>bool, integral, floating point, strings</code>
+     * \param name field name, the "_" prefix is added automatically
+     * \param value field value of any supported type
      */
     template<typename T> void SetField(const std::string& name, T value) {}
 #endif
@@ -142,8 +142,8 @@ public:
      * message["field_name"] = field_value;
      * \endcode
      *
-     * @param field field name, the "_" prefix is added automatically
-     * @return wrapper to allow assignment, see the usage example.
+     * \param field field name, the "_" prefix is added automatically
+     * \return wrapper to allow assignment, see the usage example.
      */
     FieldSetter operator[](const std::string& field)
     {
