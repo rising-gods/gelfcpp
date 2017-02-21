@@ -1,4 +1,4 @@
 /**
- * \defgroup Marcos Convenience marco overview
+ * \defgroup Marcos Marcos
  * \brief Convenience marcos for easier integration
  */
