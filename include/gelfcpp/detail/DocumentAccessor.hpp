@@ -2,6 +2,7 @@
 
 #include <gelfcpp/GelfMessage.hpp>
 
+
 namespace gelfcpp
 {
 namespace detail

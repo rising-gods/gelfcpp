@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <functional>
 
+
 namespace gelfcpp
 {
 
@@ -47,6 +48,7 @@ struct GelfMessageBuilder
 {
 public:
 #ifndef GELFCPP_DOXYGEN_RUNNING
+
     GelfMessageBuilder&& operator()(const std::string& message) &&
     {
         message_.SetMessage(message);
@@ -96,6 +98,7 @@ public:
     {
         return std::move(message_);
     }
+
 #else
     /**
      * \brief Sets the short_message field

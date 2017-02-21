@@ -2,6 +2,7 @@
 #include <gelfcpp/output/GelfUDPOutput.hpp>
 #include <gelfcpp/decorator/Timestamp.hpp>
 
+
 int main()
 {
     gelfcpp::output::GelfUDPOutput graylog("graylog.example.com", 12001);
@@ -9,7 +10,7 @@ int main()
 
     GELF_MESSAGE(graylog)
                 ("host", "localhost")
-                (timestamp)
-                ("I'm sending a message from gelfcpp")
-                ("awesomeness", 1337);
+                        (timestamp)
+                        ("I'm sending a message from gelfcpp")
+                        ("awesomeness", 1337);
 }

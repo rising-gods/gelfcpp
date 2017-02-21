@@ -21,6 +21,7 @@ public:
      * \brief Uses the systems current hostname
      */
     Host() : Host(boost::asio::ip::host_name()) {}
+
     /**
      * \brief Explicitly sets the hostname
      * \param host the hostname
@@ -31,6 +32,7 @@ public:
      * \brief Resets the hostname to the system current hostname
      */
     void SetDefault() { SetHost(boost::asio::ip::host_name()); }
+
     /**
      * \brief Explicitly sets the hostname
      * \param host the hostname

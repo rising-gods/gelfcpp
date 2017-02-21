@@ -31,6 +31,7 @@ public:
     }
 
 #ifndef GELFCPP_DOXYGEN_RUNNING
+
     template<std::size_t I>
     auto get() -> std::add_lvalue_reference_t<std::tuple_element_t<I, DecoratorSet>>
     {
@@ -42,6 +43,7 @@ public:
     {
         return std::get<T>(decorators_);
     }
+
 #else
     /**
      * \brief Accesses the decorator in the set by index
@@ -62,7 +64,7 @@ private:
     template<std::size_t... I>
     void operator()(GelfMessage& message, std::index_sequence<I...>)
     {
-        int dummy[] = {(std::get<I>(decorators_)(message), 0)...};
+        int dummy[] = { (std::get<I>(decorators_)(message), 0)... };
         (void) dummy;
     }
 

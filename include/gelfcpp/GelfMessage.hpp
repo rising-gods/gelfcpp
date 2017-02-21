@@ -4,7 +4,6 @@
 #include <unordered_set>
 #include <string>
 #include <chrono>
-#include <bits/unordered_set.h>
 
 
 namespace gelfcpp
@@ -95,6 +94,7 @@ public:
     }
 
 #ifndef GELFCPP_DOXYGEN_RUNNING
+
     template<typename T>
     auto SetField(const std::string& name, T value) -> std::enable_if_t<std::is_arithmetic<T>::value && !std::is_same<T, bool>::value>
     {
@@ -118,6 +118,7 @@ public:
         rapidjson::Value json(value, doc_.GetAllocator());
         SetField(name, std::move(json));
     }
+
 #else
     /**
      * \brief Adds a field to the message.
@@ -147,7 +148,7 @@ public:
      */
     FieldSetter operator[](const std::string& field)
     {
-        return {*this, field};
+        return { *this, field };
     }
 
 private:

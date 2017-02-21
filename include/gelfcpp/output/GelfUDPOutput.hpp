@@ -6,6 +6,7 @@
 #include <string>
 #include <cstdint>
 
+
 namespace gelfcpp
 {
 namespace output

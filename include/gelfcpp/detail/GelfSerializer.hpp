@@ -2,6 +2,7 @@
 
 #include <gelfcpp/GelfMessage.hpp>
 #include <gelfcpp/detail/DocumentAccessor.hpp>
+
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/writer.h>
 #ifndef GELFCPP_NO_COMPRESSION
@@ -13,6 +14,7 @@
 #include <chrono>
 #include <random>
 #include <sstream>
+
 
 namespace gelfcpp
 {
@@ -73,6 +75,7 @@ public:
 
 private:
 #ifndef GELFCPP_NO_COMPRESSION
+
     std::string Compress(const char* message, std::size_t size)
     {
         boost::iostreams::array_source input(message, size);
@@ -83,6 +86,7 @@ private:
         boost::iostreams::copy(compressor, out);
         return out.str();
     }
+
 #endif
 
     uint64_t GenerateMessageID()
