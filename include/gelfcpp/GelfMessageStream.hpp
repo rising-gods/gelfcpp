@@ -97,7 +97,7 @@ private:
  *
  * Usually used in conjunction with a convenience macro like GELF_MESSAGE to allow conditional sending.
  *
- * Allows contextual-conversion to bool to check wheter the output is valid.
+ * Allows contextual-conversion to bool to check wether the output is valid.
  * An output is valid if it can accept messages, meaning:
  * * output is a reference to an output type
  * * output is a non-null pointer to an output type
@@ -105,7 +105,7 @@ private:
  *
  * \note
  *  Send explicitly requires to provide the output again, since it is not stored inside the stream.
- *  This is due to the need to support arbritary, non-virtual output types.
+ *  This is due to the need to support arbitrary, non-virtual output types.
  *
  * Usage example:
  * \code

@@ -13,7 +13,7 @@ namespace output
 /**
  * \brief Writes GelfMessages to an UDP socket
  *
- * Serlializes and sends messages to e.g. an Graylog Node, sending is non-blocking.
+ * Serializes and sends messages to e.g. an Graylog Node, sending is non-blocking.
  *
  * Uses chunking for big messages due to size limitations of UDP.
  * Additionally uses compression if enabled (by setting \c GELFCPP_WITH_COMPRESSION in CMake).

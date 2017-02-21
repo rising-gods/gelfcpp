@@ -1,7 +1,5 @@
 #include <gelfcpp/GelfMessageStream.hpp>
 #include <gelfcpp/output/GelfJSONOutput.hpp>
-#include <rapidjson/stringbuffer.h>
-#include <rapidjson/writer.h>
 #include <gtest/gtest.h>
 
 

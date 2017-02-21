@@ -15,7 +15,7 @@
 #ifndef RAPIDJSON_INTERNAL_STRFUNC_H_
 #define RAPIDJSON_INTERNAL_STRFUNC_H_
 
-#include "../stream.h"
+#include "rapidjson/stream.h"
 
 RAPIDJSON_NAMESPACE_BEGIN
 namespace internal {

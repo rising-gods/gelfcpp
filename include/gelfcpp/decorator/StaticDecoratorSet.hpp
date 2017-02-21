@@ -14,7 +14,7 @@ namespace decorator
  *
  * \note The decorators are applied in definition order.
  *
- * @tparam Decorators dectorators that should be applied
+ * @tparam Decorators decorators that should be applied
  */
 template<typename... Decorators>
 class StaticDecoratorSet
