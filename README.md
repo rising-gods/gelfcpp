@@ -1,8 +1,8 @@
 # gelfcpp
 ## Library for sending [Graylog Extended Log Format (GELF)](http://docs.graylog.org/en/stable/pages/gelf.html) messages from C++ applications.
 
-* [gelfcpp GitLab](https://github.com/Daejiv/gelfcpp)
-* [gelfcpp Documentation](https://daejiv.github.io/gelfcpp/)
+* [gelfcpp GitHub](https://github.com/rising-gods/gelfcpp)
+* [gelfcpp Documentation](https://rising-gods.github.io/gelfcpp/)
 
 ## Introduction
 gelfcpp is a [Graylog Extended Log Format (GELF)](http://docs.graylog.org/en/stable/pages/gelf.html) interface for C++.
