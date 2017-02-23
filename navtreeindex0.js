@@ -61,7 +61,7 @@ var NAVTREEINDEX0 =
 "structgelfcpp_1_1_gelf_message_builder.html#abbafba4f76bb40c5dcf1ff6acc3a2ded":[1,0,0,3,2],
 "structgelfcpp_1_1_gelf_message_builder.html#adfb79e1d3e39c5406109c6184b43657d":[1,0,0,3,0],
 "structgelfcpp_1_1_gelf_message_stream.html":[1,0,0,4],
-"structgelfcpp_1_1_gelf_message_stream.html#a126f9898a98f3a6ffa7a5309e4591e39":[1,0,0,4,2],
+"structgelfcpp_1_1_gelf_message_stream.html#a6411d5f259e47d237e831feafa5a66be":[1,0,0,4,2],
 "structgelfcpp_1_1_gelf_message_stream.html#a8c25edd82419105925da7db812a307ef":[1,0,0,4,1],
 "structgelfcpp_1_1_gelf_message_stream.html#ae39ca5aa8997d49c6775a871f3fd6978":[1,0,0,4,0]
 };
