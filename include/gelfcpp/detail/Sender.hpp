@@ -13,6 +13,9 @@ template<typename T>
 class Sender
 {
 public:
+    Sender(const Sender&) = delete;
+    Sender& operator=(const Sender&) = delete;
+
     static bool IsValid(const T&)
     {
         return true;
@@ -34,6 +37,9 @@ template<typename T>
 class Sender<T*>
 {
 public:
+    Sender(const Sender&) = delete;
+    Sender& operator=(const Sender&) = delete;
+
     static bool IsValid(const T* output)
     {
         return output != nullptr;
@@ -55,13 +61,16 @@ template<typename T>
 class Sender<std::shared_ptr<T>>
 {
 public:
+    Sender(const Sender&) = delete;
+    Sender& operator=(const Sender&) = delete;
+
     static bool IsValid(const std::shared_ptr<T>& output)
     {
         return output != nullptr;
     }
 
-    Sender(std::shared_ptr<T> output) :
-            output_(std::move(output)) {}
+    Sender(const std::shared_ptr<T>& output) :
+            output_(output) {}
 
     void operator=(const GelfMessage& message)
     {
@@ -69,20 +78,23 @@ public:
     }
 
 private:
-    std::shared_ptr<T> output_;
+    const std::shared_ptr<T>& output_;
 };
 
 template<typename T, typename Deleter>
 class Sender<std::unique_ptr<T, Deleter>>
 {
 public:
+    Sender(const Sender&) = delete;
+    Sender& operator=(const Sender&) = delete;
+
     static bool IsValid(const std::unique_ptr<T, Deleter>& output)
     {
         return output != nullptr;
     }
 
     Sender(const std::unique_ptr<T, Deleter>& output) :
-            output_(output.get()) {}
+            output_(output) {}
 
     void operator=(const GelfMessage& message)
     {
@@ -90,7 +102,7 @@ public:
     }
 
 private:
-    T* output_;
+    const std::unique_ptr<T, Deleter>& output_;
 };
 
 }

@@ -69,10 +69,10 @@ public:
      * \return Sink for GelfMessages, which are send to the output
      */
     template<typename T>
-    detail::Sender<T> Send(T& output)
+    detail::Sender<std::decay_t<T>> Send(T&& output)
     {
         valid_ = false;
-        return { output };
+        return { std::forward<T>(output) };
     }
 
 private:

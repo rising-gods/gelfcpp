@@ -48,6 +48,21 @@ TEST_F(TestGelfMessageStream, SendPointer)
         GELF_MESSAGE(ptr)("message");
         EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
     }
+    {
+        auto ptr_fn = [this]() -> gelfcpp::output::GelfJSONOutput* { return &output; };
+        GELF_MESSAGE(ptr_fn())("message");
+        EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
+    }
+    {
+        gelfcpp::output::GelfJSONOutput* null_ptr = nullptr;
+        GELF_MESSAGE(null_ptr)("message");
+        EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
+    }
+    {
+        auto null_ptr_fn = []() -> gelfcpp::output::GelfJSONOutput* { return nullptr; };
+        GELF_MESSAGE(null_ptr_fn())("message");
+        EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
+    }
 }
 
 TEST_F(TestGelfMessageStream, SendSharedPointer)
@@ -62,6 +77,30 @@ TEST_F(TestGelfMessageStream, SendSharedPointer)
         GELF_MESSAGE(ptr)("message");
         EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
     }
+    {
+        auto ptr_fn = [ptr]() -> std::shared_ptr<gelfcpp::output::GelfJSONOutput> { return ptr; };
+        GELF_MESSAGE(ptr_fn())("message");
+        EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
+    }
+    {
+        std::shared_ptr<gelfcpp::output::GelfJSONOutput> null_ptr;
+        GELF_MESSAGE(null_ptr)("message");
+        EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
+    }
+    {
+        auto null_ptr_fn = []() -> std::shared_ptr<gelfcpp::output::GelfJSONOutput> { return {}; };
+        GELF_MESSAGE(null_ptr_fn())("message");
+        EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
+    }
+    {
+        auto null_ptr_fn = []() -> const std::shared_ptr<gelfcpp::output::GelfJSONOutput>&
+        {
+            static std::shared_ptr<gelfcpp::output::GelfJSONOutput> null_ptr;
+            return null_ptr;
+        };
+        GELF_MESSAGE(null_ptr_fn())("message");
+        EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
+    }
 }
 
 TEST_F(TestGelfMessageStream, SendUniquePointer)
@@ -75,5 +114,24 @@ TEST_F(TestGelfMessageStream, SendUniquePointer)
     {
         GELF_MESSAGE(ptr)("message");
         EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
+    }
+    {
+        auto ptr_fn = [&ptr]() -> const std::unique_ptr<output::GelfJSONOutput, NullDeleter>& { return ptr; };
+        GELF_MESSAGE(ptr_fn())("message");
+        EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
+    }
+    {
+        std::unique_ptr<output::GelfJSONOutput, NullDeleter> null_ptr;
+        GELF_MESSAGE(null_ptr)("message");
+        EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
+    }
+    {
+        auto null_ptr_fn = []() -> const std::unique_ptr<output::GelfJSONOutput, NullDeleter>&
+        {
+            static std::unique_ptr<output::GelfJSONOutput, NullDeleter> null_ptr;
+            return null_ptr;
+        };
+        GELF_MESSAGE(null_ptr_fn())("message");
+        EXPECT_EQ(result.str(), R"({"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"}{"version":"1.1","short_message":"message"})");
     }
 }
