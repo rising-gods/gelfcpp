@@ -30,6 +30,10 @@ public:
      * \param port remote UDP port
      */
     GelfUDPOutput(const std::string& host, uint16_t port)
+        : serializer_()
+        , service_()
+        , endpoint_()
+        , socket_()
     {
         boost::asio::ip::udp::resolver resolver(service_);
         boost::asio::ip::udp::resolver::query query(host, std::to_string(port));

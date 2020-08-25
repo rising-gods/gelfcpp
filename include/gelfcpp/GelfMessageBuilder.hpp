@@ -44,10 +44,14 @@ namespace gelfcpp
  * builder(add_common_fields);
  * \endcode
  */
-struct GelfMessageBuilder
+class GelfMessageBuilder
 {
 public:
 #ifndef GELFCPP_DOXYGEN_RUNNING
+
+    GelfMessageBuilder()
+        : message_()
+    {}
 
     GelfMessageBuilder&& operator()(const std::string& message) &&
     {

@@ -32,9 +32,10 @@ class GelfMessage
         std::string field;
 
         template<typename T>
-        void operator=(T&& value)
+        FieldSetter& operator=(T&& value)
         {
             owner.SetField(field, std::forward<T>(value));
+            return *this;
         }
     };
 

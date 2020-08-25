@@ -24,9 +24,10 @@ public:
     Sender(T& output) :
             output_(output) {}
 
-    void operator=(const GelfMessage& message)
+    Sender& operator=(const GelfMessage& message)
     {
         output_.Write(message);
+        return *this;
     }
 
 private:
@@ -48,9 +49,10 @@ public:
     Sender(T* output) :
             output_(output) {}
 
-    void operator=(const GelfMessage& message)
+    Sender& operator=(const GelfMessage& message)
     {
         output_->Write(message);
+        return *this;
     }
 
 private:
@@ -72,9 +74,10 @@ public:
     Sender(const std::shared_ptr<T>& output) :
             output_(output) {}
 
-    void operator=(const GelfMessage& message)
+    Sender& operator=(const GelfMessage& message)
     {
         output_->Write(message);
+        return *this;
     }
 
 private:
@@ -96,9 +99,10 @@ public:
     Sender(const std::unique_ptr<T, Deleter>& output) :
             output_(output) {}
 
-    void operator=(const GelfMessage& message)
+    Sender& operator=(const GelfMessage& message)
     {
         output_->Write(message);
+        return *this;
     }
 
 private:
