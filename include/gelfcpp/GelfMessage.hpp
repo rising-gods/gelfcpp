@@ -26,11 +26,24 @@ class GelfMessage
 {
     friend struct detail::DocumentAccessor;
 
+#ifdef __GNUC__
+// RAPIDJSON_DIAG_OFF(effc++)
+#define RAPIDJSON_DIAG_WARNING(x) \
+    RAPIDJSON_DIAG_PRAGMA(warning RAPIDJSON_STRINGIFY(RAPIDJSON_JOIN(-W,x)))
+// ! FIXME - Avoid error on GCC 8.3.0 when `-Werror=effc++` is active !
+RAPIDJSON_DIAG_WARNING(effc++)
+#endif // __GNUC__
+
     struct FieldSetter
     {
         GelfMessage& owner;
         std::string field;
 
+        // 
+        // ! FIXME - Still warning/error on `-Weffc++` on GCC 8.3.0 !
+        //               * error: ‘operator=’ should return a reference to ‘*this’ [-Werror=effc++]
+        //           @see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=84364
+        // 
         template<typename T>
         FieldSetter& operator=(T&& value)
         {
@@ -38,6 +51,10 @@ class GelfMessage
             return *this;
         }
     };
+
+#ifdef __GNUC__
+RAPIDJSON_DIAG_POP
+#endif // __GNUC__
 
 public:
     GelfMessage() :
