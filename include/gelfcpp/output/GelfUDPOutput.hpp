@@ -2,6 +2,7 @@
 
 #include <gelfcpp/GelfMessage.hpp>
 #include <gelfcpp/detail/GelfSerializer.hpp>
+#include <boost/asio/io_service.hpp>
 #include <boost/asio/ip/udp.hpp>
 #include <string>
 #include <cstdint>
