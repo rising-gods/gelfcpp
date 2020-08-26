@@ -98,18 +98,19 @@ private:
 
     void ToChunks(const char* message, size_t size, std::vector<std::string>& out)
     {
-        static constexpr char CHUNKED_GELF_MAGIC[2] = { 0x1e, 0x0f };
-        static constexpr std::size_t HEADER_SIZE = 2 + 8 + 1 + 1;
+        static constexpr char CHUNKED_GELF_MAGIC[2] = {0x1e, 0x0f};
+        static constexpr std::size_t HEADER_SIZE    = 2 + 8 + 1 + 1;
 
-        std::size_t count = size / chunk_size_ + 1;
+        std::size_t count       = CalculateChunkCount(size);
         const char* message_ptr = message;
 
         uint64_t message_id = GenerateMessageID();
 
-        for (std::size_t i = 0; i < count; ++i, message_ptr += chunk_size_)
+        out.reserve(count);
+        for (std::size_t i = 0; message_ptr <= message + size - chunk_size_; message_ptr += chunk_size_, ++i)
         {
             std::string chunk;
-            chunk.reserve(count + HEADER_SIZE);
+            chunk.reserve(chunk_size_ + HEADER_SIZE);
 
             chunk.append(CHUNKED_GELF_MAGIC, 2);
             chunk.append(reinterpret_cast<char*>(&message_id), 8);
@@ -120,12 +121,40 @@ private:
 
             out.emplace_back(std::move(chunk));
         }
+        if (message_ptr < message + size)
+        {
+            std::size_t remaining_size(message + size - message_ptr);
+
+            std::string chunk;
+            chunk.reserve(remaining_size + HEADER_SIZE);
+
+            chunk.append(CHUNKED_GELF_MAGIC, 2);
+            chunk.append(reinterpret_cast<char*>(&message_id), 8);
+            chunk.push_back(static_cast<char>((count - 1) & 0x7F));
+            chunk.push_back(static_cast<char>(count & 0x7F));
+
+            chunk.append(message_ptr, remaining_size);
+
+            out.emplace_back(std::move(chunk));
+        }
     }
 
 private:
     std::mt19937_64 random_;
     std::size_t chunk_size_;
     std::size_t compress_threshold_;
+
+    std::size_t CalculateChunkCount(std::size_t size)
+    {
+        if (size % chunk_size_)
+        {
+            return size / chunk_size_ + 1;
+        }
+        else
+        {
+            return size / chunk_size_;
+        }
+    }
 };
 
 }
